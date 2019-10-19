@@ -1,0 +1,34 @@
+# https://stackoverflow.com/questions/53089294/nginx-ingress-sub-path-redirection
+apiVersion: extensions/v1beta1
+kind: Ingress
+metadata:
+    annotations:
+        kubernetes.io/ingress.class: nginx
+        nginx.ingress.kubernetes.io/rewrite-target: /
+        nginx.ingress.kubernetes.io/add-base-url : "true"
+        #nginx.ingress.kubernetes.io/configuration-snippet: |
+        #  rewrite ^/logs /logs break;
+    name: nginx-ingress
+    #namespace: ingress-nginx
+
+spec:
+    rules:
+      - host: test.example.org
+        http:
+            paths:
+              - path: /
+                backend:
+                    # serviceName: server-test
+                    serviceName: service-test-nginx
+                    servicePort: 80
+            
+      - host: 1.test.example.org
+        http:
+            paths:
+              - path: /
+                backend:
+                    # serviceName: server-test
+                    serviceName: service-test-1-nginx
+                    servicePort: 80
+            
+
